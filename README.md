@@ -65,6 +65,22 @@ python scripts/get_feishu_user_token.py --app-id your_app_id --app-secret your_a
 
 5. The script will open your browser for authorization. After you approve it, the `user_access_token` will be printed in the terminal.
 
+#### Refreshing an Expired Token
+
+If your `user_access_token` is about to expire, you can use the `refresh_token` obtained earlier to get a new one without going through the browser authorization again:
+
+```bash
+export FEISHU_APP_ID="your_app_id"
+export FEISHU_APP_SECRET="your_app_secret"
+python scripts/refresh_feishu_user_token.py --refresh-token "your_refresh_token"
+```
+
+Or pass credentials directly:
+
+```bash
+python scripts/refresh_feishu_user_token.py --refresh-token "your_refresh_token" --app-id your_app_id --app-secret your_app_secret
+```
+
 ### 2. Configure the Plugin
 
 1. Open SiYuan → Settings → Plugins → Export to Feishu

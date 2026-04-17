@@ -66,7 +66,21 @@ python scripts/get_feishu_user_token.py --app-id your_app_id --app-secret your_a
 
 5. 脚本会自动打开浏览器进行授权。授权成功后，`user_access_token` 会打印在终端中。
 
+#### 刷新已过期/即将过期的 Token
 
+如果你之前获取到的 `refresh_token` 仍然有效，可以通过以下方式直接刷新 `user_access_token`，无需再次打开浏览器授权：
+
+```bash
+export FEISHU_APP_ID="your_app_id"
+export FEISHU_APP_SECRET="your_app_secret"
+python scripts/refresh_feishu_user_token.py --refresh-token "your_refresh_token"
+```
+
+或者直接传入参数：
+
+```bash
+python scripts/refresh_feishu_user_token.py --refresh-token "your_refresh_token" --app-id your_app_id --app-secret your_app_secret
+```
 
 ### 2. 配置插件
 
