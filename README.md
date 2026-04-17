@@ -30,7 +30,9 @@ Before using the plugin, you need to configure the Feishu API access:
 
 ### 1. Get Feishu Access Token
 
-You need a `tenant_access_token` or `user_access_token` from Feishu Open Platform:
+You need a `tenant_access_token` or `user_access_token` from Feishu Open Platform.
+
+> **Note:** `tenant_access_token` operates on behalf of the app/tenant. Documents created with it may be owned by the app or enterprise space, which can make them invisible in your personal Feishu account. For regular users, **`user_access_token`** is strongly recommended because documents will appear in your personal drive.
 
 #### Easy Method for Regular Users
 
@@ -41,9 +43,27 @@ You need a `tenant_access_token` or `user_access_token` from Feishu Open Platfor
 5. Done
 
 #### Standard Method
-WIP
 
-The process involves: creating your own app, setting required permissions, obtaining authorization code via app ID and secret, then getting the token. Too complicated, not recommended for regular users.
+If you prefer to create your own Feishu app and obtain a `user_access_token` locally, you can use the provided helper script:
+
+1. Create a custom app in [Feishu Open Platform](https://open.feishu.cn/app) and enable **"Web application"** login.
+2. Set the redirect URL to `http://localhost:8080/callback`.
+3. Note down your **App ID** and **App Secret**.
+4. Run the helper script in `scripts/get_feishu_user_token.py`:
+
+```bash
+export FEISHU_APP_ID="your_app_id"
+export FEISHU_APP_SECRET="your_app_secret"
+python scripts/get_feishu_user_token.py
+```
+
+Or pass the credentials directly:
+
+```bash
+python scripts/get_feishu_user_token.py --app-id your_app_id --app-secret your_app_secret
+```
+
+5. The script will open your browser for authorization. After you approve it, the `user_access_token` will be printed in the terminal.
 
 ### 2. Configure the Plugin
 
@@ -130,6 +150,10 @@ A: Currently, the plugin only creates new documents. Update/replace functionalit
 **Q: What happens if conversion takes too long?**
 
 A: The plugin polls for conversion status every 2 seconds, up to 5 times (10 seconds total). If it times out, you'll be prompted to check the result manually in Feishu.
+
+**Q: Why can't I find the exported document in my personal Feishu space?**
+
+A: If you used a `tenant_access_token`, the document is created on behalf of the app/tenant and may be located in the enterprise or app-owned space rather than your personal drive. Switch to a `user_access_token` to ensure documents appear under your personal account.
 
 **Q: Where is the export history stored?**
 
