@@ -4,7 +4,7 @@
 
 一个将思源笔记文档导出到飞书文档的插件。
 
-> 本项目基于 [siyuan-plugin-export-to-feishu]([https://github.com/NormanZyq/siyuan-plugin-export-to-feishu]) fork 开发，在模板基础上增添了脚本一键获取Access Token、Access Token 刷新过期时间的功能，省略了获取飞书 Access Token 的繁琐过程
+> 本项目基于 [siyuan-plugin-export-to-feishu](https://github.com/NormanZyq/siyuan-plugin-export-to-feishu) fork 开发，在模板基础上增添了脚本一键获取Access Token、Access Token 刷新过期时间的功能，省略了获取飞书 Access Token 的繁琐过程
 
 ## 改进内容
 
