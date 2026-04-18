@@ -27,8 +27,9 @@
     "zh_CN": "将思源笔记导出为飞书文档"
   },
   "readme": {
-    "default": "README.md",
-    "zh_CN": "README_zh_CN.md"
+    "default": "README_en.md",
+    "zh_CN": "README.md",
+    "en_US": "README_en.md"
   },
   "funding": {
     "openCollective": "",

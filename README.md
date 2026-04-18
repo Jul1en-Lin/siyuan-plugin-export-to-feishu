@@ -1,55 +1,57 @@
-[中文](README_zh_CN.md)
+[English](README_en.md)
 
-# Export to Feishu
+# 导出到飞书
 
-A SiYuan Note plugin that exports documents to Feishu (Lark) Docs. **Vibe coded by Claude Code**
+一个将思源笔记文档导出到飞书文档的插件。
 
-## Features
+> 本项目基于 [siyuan-note/plugin-sample](https://github.com/siyuan-note/plugin-sample) 官方插件模板 fork 开发，在模板基础上完整实现了思源笔记到飞书文档的导出功能。
 
-- **One-click Export**: Export the current document to Feishu Docs via top bar button or shortcut
-- **Folder Selection**: Choose the target folder in Feishu Drive for each export
-- **Export History Tracking**: Automatically records export history in document attributes
-- **Re-export Detection**: Warns when exporting a previously exported document
-- **Conversion Status**: Real-time feedback on upload and conversion progress
-- **Error Handling**: Displays detailed error messages and warnings from Feishu API
+## 改进内容
 
-## Installation
+- **一键导出**：通过顶栏按钮或快捷键，一键将当前文档导出到飞书文档
+- **文件夹选择**：每次导出时可选择飞书云空间中的目标文件夹
+- **导出历史追踪**：自动在文档属性中记录导出历史
+- **重复导出检测**：导出已导出过的文档时会弹出确认提示
+- **转换状态反馈**：实时显示上传和转换进度
+- **错误处理**：显示来自飞书 API 的详细错误信息和警告
 
-### ~~From Marketplace~~
+## 安装
 
+### ~~从集市安装~~
+并没有上架
 
-### Manual Installation
+### 手动安装
 
-1. Download `package.zip` from [Releases](https://github.com/yourusername/export-to-feishu/releases)
-2. Extract to `{SiYuan workspace}/data/plugins/export-to-feishu/`
-3. Restart SiYuan or reload plugins
+1. 从 [Releases](https://github.com/yourusername/export-to-feishu/releases) 下载 `package.zip`
+2. 解压到 `{思源工作空间}/data/plugins/export-to-feishu/`
+3. 重启思源或重新加载插件
 
-## Configuration
+## 配置
 
-Before using the plugin, you need to configure the Feishu API access:
+使用插件前，需要配置飞书 API 访问权限：
 
-### 1. Get Feishu Access Token
+### 1. 获取飞书 Access Token
 
-You need a `tenant_access_token` or `user_access_token` from Feishu Open Platform.
+你需要从飞书开放平台获取 `tenant_access_token` 或 `user_access_token`。
 
-> **Note:** `tenant_access_token` operates on behalf of the app/tenant. Documents created with it may be owned by the app or enterprise space, which can make them invisible in your personal Feishu account. For regular users, **`user_access_token`** is strongly recommended because documents will appear in your personal drive.
+> **注意：** `tenant_access_token` 代表应用/企业租户身份调用 API。使用它导出的文档可能归属于应用或企业空间，导致在个人飞书账号的「我的空间」中**无法查看**。普通用户强烈建议改用 **`user_access_token`**，这样文档会出现在你的个人云空间中。
 
-#### Easy Method for Regular Users
+#### 适合普通用户的方法
 
-1. Visit [API Explorer](https://open.feishu.cn/api-explorer/)
-2. Click "Get Token"
-3. Login and authorize with Feishu
-4. Copy the `user_access_token`
-5. Done
+1. 访问 [API 调试台](https://open.feishu.cn/api-explorer/)
+2. 点击获取Token
+3. 登录飞书授权
+4. 将获取到的`user_access_token` 复制
+5. 将 Token 粘贴到插件配置中即可使用
 
-#### Standard Method
+#### 辅助一键获取 user_access_token
 
-If you prefer to create your own Feishu app and obtain a `user_access_token` locally, you can use the provided helper script:
+如果你想创建自己的飞书应用并在本地获取 `user_access_token`，可以使用仓库中提供的辅助脚本：
 
-1. Create a custom app in [Feishu Open Platform](https://open.feishu.cn/app) and enable **"Web application"** login.
-2. Set the redirect URL to `http://localhost:8080/callback`.
-3. Note down your **App ID** and **App Secret**.
-4. Run the helper script in `scripts/get_feishu_user_token.py`:
+1. 在 [飞书开放平台](https://open.feishu.cn/app) 创建自定义应用，并启用 **"网页应用"** 登录功能。
+2. 设置重定向 URL 为 `http://localhost:8080/callback`。
+3. 记录你的 **App ID** 和 **App Secret**。
+4. 运行辅助脚本 `scripts/get_feishu_user_token.py`：
 
 ```bash
 export FEISHU_APP_ID="your_app_id"
@@ -57,17 +59,17 @@ export FEISHU_APP_SECRET="your_app_secret"
 python scripts/get_feishu_user_token.py
 ```
 
-Or pass the credentials directly:
+或者直接通过命令行参数传入：
 
 ```bash
 python scripts/get_feishu_user_token.py --app-id your_app_id --app-secret your_app_secret
 ```
 
-5. The script will open your browser for authorization. After you approve it, the `user_access_token` will be printed in the terminal.
+5. 脚本会自动打开浏览器进行授权。授权成功后，`user_access_token` 会打印在终端中。
 
-#### Refreshing an Expired Token
+#### 刷新已过期/即将过期的 Token
 
-If your `user_access_token` is about to expire, you can use the `refresh_token` obtained earlier to get a new one without going through the browser authorization again:
+如果你之前获取到的 `refresh_token` 仍然有效，可以通过以下方式直接刷新 `user_access_token`，无需再次打开浏览器授权：
 
 ```bash
 export FEISHU_APP_ID="your_app_id"
@@ -75,106 +77,106 @@ export FEISHU_APP_SECRET="your_app_secret"
 python scripts/refresh_feishu_user_token.py --refresh-token "your_refresh_token"
 ```
 
-Or pass credentials directly:
+或者直接传入参数：
 
 ```bash
 python scripts/refresh_feishu_user_token.py --refresh-token "your_refresh_token" --app-id your_app_id --app-secret your_app_secret
 ```
 
-### 2. Configure the Plugin
+### 2. 配置插件
 
-1. Open SiYuan → Settings → Plugins → Export to Feishu
-2. Enter your Feishu Access Token
-3. Click "Select" to choose a temporary folder for file uploads
-   - This folder is used to temporarily store markdown files during conversion
-   - Files are automatically deleted after successful conversion
+1. 打开思源笔记 → 设置 → 插件 → 导出到飞书
+2. 输入飞书 Access Token
+3. 点击「选择」按钮选择临时文件上传目录
+   - 该目录用于转换过程中临时存放 Markdown 文件
+   - 转换成功后文件会自动删除
 
-## Usage
+## 使用方法
 
-### Export a Document
+### 导出文档
 
-1. Open the document you want to export in SiYuan
-2. Click the Feishu icon in the top bar, or use shortcut:
+1. 在思源笔记中打开要导出的文档
+2. 点击顶栏的飞书图标，或使用快捷键：
    - macOS: `Shift + Cmd + F`
    - Windows/Linux: `Shift + Ctrl + F`
-3. Select the target folder in Feishu Drive
-4. Click "Export" to start
+3. 在弹窗中选择飞书云空间的目标文件夹
+4. 点击「确定导出」开始导出
 
-### Export Flow
+### 导出流程
 
 ```
-SiYuan Document → Markdown → Upload to Feishu → Convert to Feishu Doc → Cleanup
+思源文档 → Markdown → 上传到飞书 → 转换为飞书文档 → 清理临时文件
 ```
 
-1. Document is exported as Markdown via SiYuan API
-2. Markdown file is uploaded to the temporary folder in Feishu Drive
-3. Feishu converts the Markdown to a Feishu Doc in your selected folder
-4. Temporary file is automatically deleted
-5. The Feishu Doc token is saved to the SiYuan document's attributes
+1. 通过思源 API 将文档导出为 Markdown
+2. 将 Markdown 文件上传到飞书云空间的临时目录
+3. 飞书将 Markdown 转换为飞书文档，保存到你选择的目标文件夹
+4. 自动删除临时文件
+5. 将飞书文档 token 保存到思源文档的属性中
 
-### Re-exporting
+### 重复导出
 
-When you export a document that has been exported before:
-- A confirmation dialog will appear
-- Choosing to continue will create a **new** Feishu Doc (the existing one is not affected)
+当导出一个之前已经导出过的文档时：
+- 会弹出确认对话框
+- 选择继续将会创建一个**新的**飞书文档（不会影响已有的文档）
 
-## Build from Source
+## 从源码构建
 
-### Prerequisites
+### 环境要求
 
 - [Node.js](https://nodejs.org/) (v16+)
 - [pnpm](https://pnpm.io/)
 
-### Commands
+### 命令
 
 ```bash
-# Install dependencies
+# 安装依赖
 pnpm install
 
-# Development build (with watch mode)
+# 开发构建（监听模式）
 pnpm run dev
 
-# Production build (generates package.zip)
+# 生产构建（生成 package.zip）
 pnpm run build
 
-# Lint code
+# 代码检查
 pnpm run lint
 ```
 
-For development, place the project folder in `{SiYuan workspace}/data/plugins/export-to-feishu/` for live reload.
+开发时，将项目文件夹放置在 `{思源工作空间}/data/plugins/export-to-feishu/` 下可实现热重载。
 
-## Limitations
+## 限制
 
-- Images in documents are exported as Markdown image links
-- Some complex Markdown features may not convert perfectly to Feishu format
-- Feishu has content limits:
-  - Max 20,000 content blocks
-  - Max 2,000 table cells
-  - Max 100 table columns
-  - Max 100,000 UTF-16 characters per paragraph
+- 文档中的图片以 Markdown 图片链接形式导出
+- 部分复杂的 Markdown 格式可能无法完美转换为飞书格式
+- 飞书有内容限制：
+  - 最多 20,000 个内容块
+  - 最多 2,000 个表格单元格
+  - 最多 100 列表格
+  - 单段落最多 100,000 个 UTF-16 字符
 
-## FAQ
+## 常见问题
 
-**Q: Why do I need a temporary folder?**
+**Q: 为什么需要临时文件夹？**
 
-A: Feishu's import API requires uploading a file first, then converting it. The temporary folder stores the Markdown file during this process. It's automatically cleaned up after conversion.
+A: 飞书的导入 API 需要先上传文件，再进行转换。临时文件夹用于存放转换过程中的 Markdown 文件，转换完成后会自动清理。
 
-**Q: Can I replace/update an existing Feishu Doc?**
+**Q: 可以替换/更新已有的飞书文档吗？**
 
-A: Currently, the plugin only creates new documents. Update/replace functionality may be added in future versions.
+A: 目前插件只支持创建新文档。替换/更新功能可能会在后续版本中添加。
 
-**Q: What happens if conversion takes too long?**
+**Q: 转换超时怎么办？**
 
-A: The plugin polls for conversion status every 2 seconds, up to 5 times (10 seconds total). If it times out, you'll be prompted to check the result manually in Feishu.
+A: 插件每 2 秒轮询一次转换状态，最多轮询 5 次（共 10 秒）。如果超时，会提示你手动前往飞书客户端确认结果。
 
-**Q: Why can't I find the exported document in my personal Feishu space?**
+**Q: 为什么使用 tenant_access_token 导出后在个人飞书空间里找不到文档？**
 
-A: If you used a `tenant_access_token`, the document is created on behalf of the app/tenant and may be located in the enterprise or app-owned space rather than your personal drive. Switch to a `user_access_token` to ensure documents appear under your personal account.
+A: `tenant_access_token` 是以应用/企业租户的身份创建文档，文档可能归属于企业空间或应用空间，不会自动出现在你的个人云空间中。改用 `user_access_token` 即可让文档进入你的个人账号下。
 
-**Q: Where is the export history stored?**
+**Q: 导出历史保存在哪里？**
 
-A: The Feishu document token is stored in the SiYuan document's custom attribute `custom-feishu-doc-token`.
+A: 飞书文档的 token 保存在思源文档的自定义属性 `custom-feishu-doc-token` 中。
 
-## License
+## 许可证
 
 MIT
