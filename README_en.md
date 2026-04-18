@@ -22,7 +22,7 @@ Not listed yet.
 
 ### Manual Installation
 
-1. Download `package.zip` from [Releases](https://github.com/yourusername/export-to-feishu/releases)
+1. Download `package.zip` from [Releases](https://github.com/Jul1en-Lin/siyuan-plugin-export-to-feishu/releases)
 2. Extract to `{SiYuan workspace}/data/plugins/export-to-feishu/`
 3. Restart SiYuan or reload plugins
 

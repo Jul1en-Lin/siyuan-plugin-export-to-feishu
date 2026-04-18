@@ -19,7 +19,7 @@
 
 ### 手动安装
 
-1. 从 [Releases](https://github.com/yourusername/export-to-feishu/releases) 下载 `package.zip`
+1. 从 [Releases](https://github.com/Jul1en-Lin/siyuan-plugin-export-to-feishu/releases) 下载 `package.zip`
 2. 解压到 `{思源工作空间}/data/plugins/export-to-feishu/`
 3. 重启思源或重新加载插件
 
