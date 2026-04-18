@@ -4,7 +4,7 @@
 
 一个将思源笔记文档导出到飞书文档的插件。
 
-> 本项目基于 [siyuan-note/plugin-sample](https://github.com/siyuan-note/plugin-sample) 官方插件模板 fork 开发，在模板基础上完整实现了思源笔记到飞书文档的导出功能。
+> 本项目基于 [siyuan-plugin-export-to-feishu]([https://github.com/NormanZyq/siyuan-plugin-export-to-feishu]) fork 开发，在模板基础上增添了脚本一键获取Access Token、Access Token 刷新过期时间的功能，省略了获取飞书 Access Token 的繁琐过程
 
 ## 改进内容
 
@@ -16,9 +16,6 @@
 - **错误处理**：显示来自飞书 API 的详细错误信息和警告
 
 ## 安装
-
-### ~~从集市安装~~
-并没有上架
 
 ### 手动安装
 
@@ -176,7 +173,3 @@ A: `tenant_access_token` 是以应用/企业租户的身份创建文档，文档
 **Q: 导出历史保存在哪里？**
 
 A: 飞书文档的 token 保存在思源文档的自定义属性 `custom-feishu-doc-token` 中。
-
-## 许可证
-
-MIT
